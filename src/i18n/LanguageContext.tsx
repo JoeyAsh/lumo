@@ -45,10 +45,12 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         messages={messages[locale]} 
         defaultLocale="en"
         defaultRichTextElements={{
-          br: (chunks) => <>{chunks}<br /></>,
+          br: () => <br />,
+          BR: () => <br />,
           em: (chunks) => <em>{chunks}</em>,
           b: (chunks) => <b>{chunks}</b>,
           strong: (chunks) => <strong>{chunks}</strong>,
+          i: (chunks) => <i>{chunks}</i>,
         }}
       >
         {children}

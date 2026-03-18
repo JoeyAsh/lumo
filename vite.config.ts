@@ -3,5 +3,9 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/lumo/'
+  base: '/lumo/',
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+  }
 })

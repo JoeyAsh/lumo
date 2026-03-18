@@ -1,9 +1,12 @@
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { PY01Illustration, YA61Illustration, XA61Illustration } from '../components/illustrations/ProductIllustrations'
 import './Home.css'
 
 export default function Home() {
+  const { lang } = useParams<{ lang: string }>()
+  const base = `/${lang}`
+
   const productLines = [
     {
       name: <FormattedMessage id="home.preview.p1.name" />,
@@ -73,10 +76,10 @@ export default function Home() {
             <FormattedMessage id="home.hero.sub" />
           </p>
           <div className="hero__actions animate-fade-up delay-4">
-            <Link to="/products" className="btn btn--primary">
+            <Link to={`${base}/products`} className="btn btn--primary">
               <FormattedMessage id="home.hero.cta.explore" />
             </Link>
-            <Link to="/experience" className="btn btn--ghost">
+            <Link to={`${base}/experience`} className="btn btn--ghost">
               <FormattedMessage id="home.hero.cta.vision" />
             </Link>
           </div>
@@ -144,7 +147,7 @@ export default function Home() {
           </div>
           <div className="products-preview__grid">
             {productLines.map((p, i) => (
-              <Link to="/products" key={i} className={`product-card product-card--${p.variant}`}>
+              <Link to={`${base}/products`} key={i} className={`product-card product-card--${p.variant}`}>
                 <div className="product-card__visual">
                   <p.IllComp className="product-card__illustration" />
                 </div>
@@ -174,7 +177,7 @@ export default function Home() {
           <p className="philosophy__text">
             <FormattedMessage id="home.philosophy.text" />
           </p>
-          <Link to="/experience" className="btn btn--outline">
+          <Link to={`${base}/experience`} className="btn btn--outline">
             <FormattedMessage id="home.philosophy.more" />
           </Link>
         </div>
@@ -193,7 +196,7 @@ export default function Home() {
             <FormattedMessage id="home.cta.sub" />
           </p>
           <div className="cta-banner__actions">
-            <Link to="/contact" className="btn btn--primary">
+            <Link to={`${base}/contact`} className="btn btn--primary">
               <FormattedMessage id="home.cta.request" />
             </Link>
             <a href="#" className="btn btn--ghost-dark">

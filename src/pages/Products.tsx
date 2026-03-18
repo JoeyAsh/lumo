@@ -1,10 +1,12 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { PY01Illustration, YA61Illustration, XA61Illustration } from '../components/illustrations/ProductIllustrations'
 import './Products.css'
 
 export default function Products() {
+  const { lang } = useParams<{ lang: string }>()
+  const base = `/${lang}`
   const intl = useIntl()
   const [active, setActive] = useState('ya61')
   const [showSpecs, setShowSpecs] = useState(false)
@@ -204,7 +206,7 @@ export default function Products() {
                   <span className="product-detail__price-value">{product.price}</span>
                 </div>
                 <div className="product-detail__actions">
-                  <Link to="/contact" className="btn btn--primary">
+                  <Link to={`${base}/contact`} className="btn btn--primary">
                     <FormattedMessage id="nav.requestConsultation" />
                   </Link>
                   <button className="btn btn--outline">

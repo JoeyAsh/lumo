@@ -1,8 +1,11 @@
 import './Experience.css'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 
 export default function Experience() {
+  const { lang } = useParams<{ lang: string }>()
+  const base = `/${lang}`
+
   const values = [
     { icon: '◎', title: <FormattedMessage id="exp.values.v1.title" />, desc: <FormattedMessage id="exp.values.v1.desc" /> },
     { icon: '◈', title: <FormattedMessage id="exp.values.v2.title" />, desc: <FormattedMessage id="exp.values.v2.desc" /> },
@@ -170,10 +173,10 @@ export default function Experience() {
             <FormattedMessage id="exp.cta.sub" />
           </p>
           <div className="exp-cta__actions">
-            <Link to="/contact" className="btn-exp btn-exp--primary">
+            <Link to={`${base}/contact`} className="btn-exp btn-exp--primary">
               <FormattedMessage id="exp.cta.request" />
             </Link>
-            <Link to="/products" className="btn-exp btn-exp--ghost">
+            <Link to={`${base}/products`} className="btn-exp btn-exp--ghost">
               <FormattedMessage id="exp.cta.explore" />
             </Link>
           </div>

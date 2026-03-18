@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>LUMO</title>
+    <script>
+      // SPA redirect for GitHub Pages.
+      // Saves the current path/search/hash to sessionStorage and redirects
+      // to the base URL so index.html can restore it via history.replaceState.
+      var base = '/lumo';
+      var path = window.location.pathname.slice(base.length) || '/';
+      sessionStorage.setItem('spa:redirect', path + window.location.search + window.location.hash);
+      window.location.replace(base + '/');
+    </script>
+  </head>
+  <body></body>
+</html>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { useLanguage } from '../i18n/LanguageContext'
 import './Layout.css'
@@ -8,13 +8,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const location = useLocation()
+  const { lang } = useParams<{ lang: string }>()
   const { locale, setLocale } = useLanguage()
   const intl = useIntl()
 
+  const base = `/${lang}`
+
   const navLinks = [
-    { to: '/products', label: intl.formatMessage({ id: 'nav.products' }) },
-    { to: '/experience', label: intl.formatMessage({ id: 'nav.experience' }) },
-    { to: '/contact', label: intl.formatMessage({ id: 'nav.contact' }) },
+    { to: `${base}/products`, label: intl.formatMessage({ id: 'nav.products' }) },
+    { to: `${base}/experience`, label: intl.formatMessage({ id: 'nav.experience' }) },
+    { to: `${base}/contact`, label: intl.formatMessage({ id: 'nav.contact' }) },
   ]
 
   useEffect(() => {
@@ -32,7 +35,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <div className="layout">
       <header className={`nav ${scrolled ? 'nav--scrolled' : ''}`}>
         <div className="nav__inner container container--wide">
-          <Link to="/" className="nav__logo">
+          <Link to={base} className="nav__logo">
             <LogoMark />
             <span className="nav__logo-text">LUMO</span>
           </Link>
@@ -47,21 +50,21 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 {label}
               </Link>
             ))}
-            
+
             <div className="nav__lang-switcher">
-              <button 
+              <button
                 className={`nav__lang-btn ${locale === 'en' ? 'nav__lang-btn--active' : ''}`}
                 onClick={() => setLocale('en')}
               >
                 EN
               </button>
-              <button 
+              <button
                 className={`nav__lang-btn ${locale === 'de' ? 'nav__lang-btn--active' : ''}`}
                 onClick={() => setLocale('de')}
               >
                 DE
               </button>
-              <button 
+              <button
                 className={`nav__lang-btn ${locale === 'zh' ? 'nav__lang-btn--active' : ''}`}
                 onClick={() => setLocale('zh')}
               >
@@ -69,7 +72,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </button>
             </div>
 
-            <Link to="/contact" className="nav__cta">
+            <Link to={`${base}/contact`} className="nav__cta">
               <FormattedMessage id="nav.requestConsultation" />
             </Link>
           </nav>
@@ -103,14 +106,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="footer__cols">
             <div className="footer__col">
               <h4><FormattedMessage id="footer.products" /></h4>
-              <Link to="/products">LUMO Home</Link>
-              <Link to="/products">LUMO Pro</Link>
-              <Link to="/products">LUMO Pro Square</Link>
+              <Link to={`${base}/products`}>LUMO Home</Link>
+              <Link to={`${base}/products`}>LUMO Pro</Link>
+              <Link to={`${base}/products`}>LUMO Pro Square</Link>
             </div>
             <div className="footer__col">
               <h4><FormattedMessage id="footer.company" /></h4>
-              <Link to="/experience"><FormattedMessage id="footer.vision" /></Link>
-              <Link to="/contact"><FormattedMessage id="nav.contact" /></Link>
+              <Link to={`${base}/experience`}><FormattedMessage id="footer.vision" /></Link>
+              <Link to={`${base}/contact`}><FormattedMessage id="nav.contact" /></Link>
               <a href="#"><FormattedMessage id="footer.findDealer" /></a>
             </div>
             <div className="footer__col">
@@ -123,9 +126,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
         <div className="footer__bottom container container--wide">
           <p>
-            <FormattedMessage 
-              id="footer.rights" 
-              values={{ year: new Date().getFullYear() }} 
+            <FormattedMessage
+              id="footer.rights"
+              values={{ year: new Date().getFullYear() }}
             />
           </p>
           <p><FormattedMessage id="footer.designedForHealth" /></p>

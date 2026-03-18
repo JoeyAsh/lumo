@@ -1,16 +1,18 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useContext } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
 import deMessages from './messages/de.json';
 import enMessages from './messages/en.json';
 import zhMessages from './messages/zh.json';
 
-const messages: Record<string, any> = {
+const messages: Record<string, Record<string, string>> = {
   de: deMessages,
   en: enMessages,
   zh: zhMessages,
 };
 
-type Locale = 'de' | 'en' | 'zh';
+export const SUPPORTED_LOCALES = ['en', 'de', 'zh'] as const;
+export type Locale = typeof SUPPORTED_LOCALES[number];
 
 interface LanguageContextType {
   locale: Locale;
@@ -27,22 +29,22 @@ export const useLanguage = () => {
   return context;
 };
 
-export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [locale, setLocaleState] = useState<Locale>(() => {
-    const savedLocale = localStorage.getItem('locale') as Locale;
-    return (['de', 'en', 'zh'].includes(savedLocale) ? savedLocale : 'en') as Locale;
-  });
+export const LanguageProvider: React.FC<{ locale: Locale; children: React.ReactNode }> = ({ locale, children }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const setLocale = (newLocale: Locale) => {
-    setLocaleState(newLocale);
     localStorage.setItem('locale', newLocale);
+    // Replace the leading /:lang segment, preserving the rest of the path
+    const newPath = location.pathname.replace(/^\/[^/]+/, `/${newLocale}`);
+    navigate(newPath + location.search + location.hash, { replace: true });
   };
 
   return (
     <LanguageContext.Provider value={{ locale, setLocale }}>
-      <IntlProvider 
-        locale={locale} 
-        messages={messages[locale]} 
+      <IntlProvider
+        locale={locale}
+        messages={messages[locale]}
         defaultLocale="en"
         defaultRichTextElements={{
           br: () => <br />,

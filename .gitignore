@@ -91,3 +91,6 @@ dist-ssr/
 
 # Vite
 *.pnpm-debug.log*
+
+# Claude Code local config
+.claude/
